@@ -1,0 +1,37 @@
+image:
+  repository: louislam/uptime-kuma
+  pullPolicy: IfNotPresent
+  tag: "1.23.13-debian"
+
+namespaceOverride: "uptime-kuma"  # Set the namespace to uptime-kuma
+
+service:
+  type: ClusterIP
+  port: 3001
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 180
+  periodSeconds: 10
+  timeoutSeconds: 2
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  httpGet:
+    path: /
+    port: 3001
+    scheme: HTTP
