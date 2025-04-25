@@ -1,11 +1,9 @@
-name: Deploy Uptime Kuma
+name: Deploy Uptime Kuma to Kubernetes
 
 on:
   push:
-    branches: [main]
-    paths:
-      - "uptime-kuma-values.yaml"
-      - ".github/workflows/deploy-uptime-kuma.yaml"
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -22,15 +20,10 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG_DEV }}" > kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
-          # Ensure kubeconfig is applied
-          cat $PWD/kubeconfig
-          # Set the context if needed
-          kubectl config use-context do-blr1-accuknox-dev
-          kubectl get nodes  # This ensures kubectl can access the cluster
 
-      - name: Add Helm repo
+      - name: Add Uptime Kuma Helm repo
         run: |
-          helm repo add uptime-kuma https://dirsigler.github.io/uptime-kuma-helm
+          helm repo add uptime-kuma https://dirsigler.github.io/uptime-kuma-helm/
           helm repo update
 
       - name: Deploy Uptime Kuma
