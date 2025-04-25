@@ -22,11 +22,11 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG_DEV }}" > kubeconfig
           export KUBECONFIG=$PWD/kubeconfig
-          ls -l $PWD/kubeconfig
-          kubectl get nodes
-
-      - name: Check kubectl version
-        run: kubectl version --short
+          # Ensure kubeconfig is applied
+          cat $PWD/kubeconfig
+          # Set the context if needed
+          kubectl config use-context do-blr1-accuknox-dev
+          kubectl get nodes  # This ensures kubectl can access the cluster
 
       - name: Add Helm repo
         run: |
